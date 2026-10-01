@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="DjMXh3z3Xx_yA6mG33IWQreLIhw0VzUEBOEponZMI64" />
+    <meta name="description" content="متجر AMINNOVA: ساعات ذكية وسماعات ونظارات وحقائب بأفضل الأسعار وتوصيل مجاني لجميع المدن المغربية والدفع عند الاستلام.">
+    <title>AMINNOVA - متجر عالي الجودة</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #080a0f; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; overflow-x: hidden; position: relative; }
+        #webgl-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+
+        .announcement-bar { background: linear-gradient(90deg, #25D366, #128C7E); color: white; font-size: 13px; font-weight: 700; padding: 8px 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.3); position: relative; z-index: 10; }
+        .page-content { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: calc(100vh - 35px); }
+
+        .top-bar { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; width: 100%; margin: 15px auto 0 auto; padding: 0 20px; }
+        .lang-switcher { display: flex; gap: 6px; }
+        .lang-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 5px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
+        .lang-btn.active, .lang-btn:hover { background: #25D366; border-color: #25D366; }
+
+        .hero-section { padding: 25px 20px 0 20px; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1100px; margin: 0 auto; }
+
+        .title-container { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; width: 100%; }
+        .hero-watch-left, .hero-watch-right { width: 65px; height: 65px; animation: floatWatch 4s ease-in-out infinite; filter: drop-shadow(0 0 12px rgba(37, 211, 102, 0.6)); }
+        .hero-watch-right { animation-delay: 2s; }
+
+        @keyframes floatWatch {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        .title-3d { font-size: 46px; font-weight: 900; letter-spacing: 6px; color: #ffffff; text-transform: uppercase; background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(15,23,42,0.9) 100%); padding: 16px 50px; border-radius: 24px; border: 2px solid rgba(37, 211, 102, 0.4); backdrop-filter: blur(20px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 2px 5px rgba(255, 255, 255, 0.3), 0 0 25px rgba(37, 211, 102, 0.25); text-align: center; position: relative; text-shadow: 0 3px 6px rgba(0,0,0,0.8), 0 0 15px rgba(37,211,102,0.5); margin: 0 15px; }
+
+        .subtext-card { font-size: 16px; font-weight: 700; color: #e2e8f0; background: rgba(15, 23, 42, 0.8); padding: 14px 30px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); width: 100%; max-width: 650px; text-align: center; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); }
+
+        .products-section { padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+        .section-title { font-size: 26px; font-weight: 800; margin-bottom: 25px; letter-spacing: 2px; text-transform: uppercase; color: #f8fafc; border-bottom: 2px solid #25D366; padding-bottom: 5px; text-align: center; }
+
+        .category-tabs { display: flex; gap: 15px; margin-bottom: 30px; }
+        .tab-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .tab-btn.active, .tab-btn:hover { background: #25D366; border-color: #25D366; }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; max-width: 1100px; perspective: 1000px; }
+
+        .product-card { background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 20px; backdrop-filter: blur(12px); text-align: center; position: relative; transform-style: preserve-3d; transition: transform 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+        .product-card:hover { transform: translateY(-8px) rotateX(2deg) rotateY(-2deg); border-color: rgba(37, 211, 102, 0.6); box-shadow: 0 20px 40px rgba(37, 211, 102, 0.2); }
+        .product-image-container { width: 100%; height: 210px; border-radius: 14px; overflow: hidden; position: relative; margin-bottom: 15px; }
+        .product-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .product-image { transform: scale(1.08); }
+        .price-badge { font-size: 18px; font-weight: 800; color: #25D366; background: rgba(37, 211, 102, 0.1); padding: 6px 18px; border-radius: 30px; border: 1px solid rgba(37, 211, 102, 0.3); margin-bottom: 12px; display: inline-block; }
+        .product-title { font-size: 19px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .product-desc { font-size: 13px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
+        .actions-group { display: flex; gap: 10px; width: 100%; z-index: 2; }
+        .btn-action { flex: 1; padding: 11px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; border: none; transition: all 0.2s ease; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-cart { background: #ffffff; color: #080a0f; }
+        .btn-cart:hover { background: #25D366; color: #fff; }
+        .btn-wa { background: rgba(37, 211, 102, 0.15); color: #25D366; border: 1px solid #25D366; }
+        .btn-wa:hover { background: #25D366; color: #fff; }
+
+        .footer-social { margin-top: auto; padding: 40px 20px; background: rgba(5, 7, 10, 0.95); border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .buttons-container { display: flex; justify-content: center; align-items: center; gap: 15px; max-width: 550px; margin: 0 auto; }
+
+        .btn-3d { text-decoration: none; padding: 14px 22px; border-radius: 16px; font-size: 14px; font-weight: 800; color: white; display: inline-flex; align-items: center; justify-content: center; flex: 1; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.4); transform-style: preserve-3d; gap: 10px; z-index: 5; cursor: pointer; }
+        .btn-3d:hover { transform: translateY(-6px) scale(1.05); box-shadow: 0 18px 35px rgba(0, 0, 0, 0.8), inset 0 2px 0 rgba(255, 255, 255, 0.6); }
+        .btn-3d:active { transform: translateY(2px) scale(0.97); }
+        .btn-3d img { width: 22px; height: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+
+        .btn-instagram { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border-color: rgba(255,150,150,0.5); }
+        .btn-whatsapp { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border-color: rgba(37,211,102,0.5); }
+        .btn-facebook { background: linear-gradient(135deg, #1877f2 0%, #0c5dc7 100%); border-color: rgba(24,119,242,0.5); }
+
+        .music-control { position: fixed; bottom: 20px; left: 20px; z-index: 99; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; padding: 10px 18px; border-radius: 30px; cursor: pointer; font-size: 12px; backdrop-filter: blur(10px); }
+
+        #welcome-modal { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 7, 10, 0.94); backdrop-filter: blur(12px); justify-content: center; align-items: center; z-index: 2000; }
+        .welcome-box { background: #0f172a; border: 1px solid rgba(37, 211, 102, 0.4); padding: 35px 25px; border-radius: 24px; width: 90%; max-width: 420px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+        .welcome-box h2 { color: #fff; font-size: 22px; margin-bottom: 8px; }
+        .welcome-box p { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+        .selection-group { margin-bottom: 18px; text-align: right; }
+        .selection-group label { display: block; font-size: 13px; color: #cbd5e1; margin-bottom: 8px; font-weight: 600; }
+        .options-row { display: flex; gap: 10px; }
+        .opt-btn { flex: 1; padding: 11px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .opt-btn.selected { background: #25D366; border-color: #25D366; color: #000; }
+        .btn-start { background: #25D366; color: white; border: none; padding: 13px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-start:hover { background: #20ba5a; }
+
+        #checkout-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #0f172a; border: 1px solid rgba(37, 211, 102, 0.4); padding: 30px; border-radius: 20px; width: 90%; max-width: 420px; text-align: right; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .modal-content h3 { margin-bottom: 8px; color: #fff; font-size: 22px; }
+        .modal-content label { display: block; margin-bottom: 6px; font-size: 13px; color: #94a3b8; font-weight: 600; }
+        .modal-content input, .modal-content textarea { width: 100%; padding: 11px; margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; color: #fff; font-family: inherit; font-size: 14px; }
+        .btn-submit { background: #25D366; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; font-size: 15px; cursor: pointer; }
+        .btn-cancel { background: rgba(255, 255, 255, 0.06); color: #cbd5e1; border: none; padding: 10px; width: 100%; border-radius: 10px; margin-top: 8px; cursor: pointer; }
+
+        /* عرض الهاتف: بطاقتان في كل صف */
+        @media (max-width: 600px) {
+            .hero-section { padding: 20px 12px 0 12px; }
+            .title-3d { font-size: 28px; letter-spacing: 3px; padding: 10px 20px; margin: 0 8px; }
+            .hero-watch-left, .hero-watch-right { width: 42px; height: 42px; }
+            .subtext-card { font-size: 14px; padding: 12px 16px; }
+            .products-section { padding: 30px 10px; }
+            .section-title { font-size: 20px; }
+            .category-tabs { gap: 8px; margin-bottom: 20px; }
+            .tab-btn { padding: 8px 14px; font-size: 13px; }
+            .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+            .product-card { padding: 10px; border-radius: 16px; }
+            .product-image-container { height: 120px; margin-bottom: 10px; }
+            .product-title { font-size: 14px; margin-bottom: 6px; }
+            .product-desc { font-size: 11px; margin-bottom: 10px; line-height: 1.4; }
+            .price-badge { font-size: 14px; padding: 4px 12px; margin-bottom: 10px; }
+            .actions-group { flex-direction: column; gap: 6px; }
+            .btn-action { padding: 9px 6px; font-size: 12px; }
+            .footer-social { padding: 25px 10px; }
+            .buttons-container { gap: 8px; }
+            .btn-3d { padding: 10px 6px; font-size: 11px; gap: 5px; border-radius: 12px; }
+            .btn-3d img { width: 16px; height: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-modal">
+        <div class="welcome-box">
+            <h2 id="m-title">مرحباً بك في AMINNOVA</h2>
+            <p id="m-subtitle">الرجاء اختيار لغتك والقسم المفضل لديك:</p>
+
+            <div class="selection-group">
+                <label id="m-lang-label">اختر اللغة / Choose Language:</label>
+                <div class="options-row">
+                    <button type="button" class="opt-btn selected" onclick="setModalLang('ar')" id="modal-lang-ar">العربية</button>
+                    <button type="button" class="opt-btn" onclick="setModalLang('fr')" id="modal-lang-fr">Français</button>
+                    <button type="button" class="opt-btn" onclick="setModalLang('en')" id="modal-lang-en">English</button>
+                </div>
+            </div>
+
+            <div class="selection-group">
+                <label id="m-gender-label">اختر القسم:</label>
+                <div class="options-row">
+                    <button type="button" class="opt-btn selected" onclick="setModalGender('men')" id="modal-gender-men">👨 رجالي</button>
+                    <button type="button" class="opt-btn" onclick="setModalGender('women')" id="modal-gender-women">👩 نسائي</button>
+                </div>
+            </div>
+
+            <button type="button" class="btn-start" onclick="startWebsite()" id="m-btn-start">دخول للمتجر 🚀</button>
+        </div>
+    </div>
+
+    <div class="announcement-bar" id="announcement-text">
+        ✨ توصيل سريع ومجاني لجميع المدن المغربية 🇲🇦 | الدفع عند الاستلام ✨
+    </div>
+
+    <canvas id="webgl-bg"></canvas>
+
+    <button class="music-control" id="musicToggle" type="button">🎵 الموسيقى: معطلة</button>
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="page-content">
+        <div class="top-bar">
+            <div class="lang-switcher">
+                <button type="button" class="lang-btn" id="btn-lang-ar" onclick="changeLanguage('ar')">AR</button>
+                <button type="button" class="lang-btn" id="btn-lang-fr" onclick="changeLanguage('fr')">FR</button>
+                <button type="button" class="lang-btn" id="btn-lang-en" onclick="changeLanguage('en')">EN</button>
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <div class="title-container">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&auto=format&fit=crop" class="hero-watch-left" alt="Watch 3D" style="border-radius: 50%; object-fit: cover;">
+                <h1 class="title-3d">AMINNOVA</h1>
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&auto=format&fit=crop" class="hero-watch-right" alt="Watch 3D" style="border-radius: 50%; object-fit: cover;">
+            </div>
+            <div class="subtext-card" id="subtext-desc">مرحباً بكم في متجركم، حيث تجدون أرقى المنتجات بأفضل الأسعار وبجودة عالية.</div>
+        </div>
+
+        <div class="products-section">
+            <div class="section-title" id="section-heading">المنتجات الرجالية</div>
+
+            <div class="category-tabs">
+                <button type="button" class="tab-btn" id="tab-men" onclick="switchCategory('men')">القسم الرجالي</button>
+                <button type="button" class="tab-btn" id="tab-women" onclick="switchCategory('women')">القسم النسائي</button>
+            </div>
+
+            <div class="products-grid" id="products-container"></div>
+        </div>
+
+        <div class="footer-social">
+            <div class="buttons-container">
+                <a href="https://wa.me/212611663775" target="_blank" class="btn-3d btn-whatsapp">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"><span>WhatsApp</span>
+                </a>
+                <a href="https://www.instagram.com" target="_blank" class="btn-3d btn-instagram">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"><span>Instagram</span>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" class="btn-3d btn-facebook">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" alt="Facebook"><span>Facebook</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal" onclick="closeCheckoutOnOutside(event)">
+        <div class="modal-content">
+            <h3 id="c-modal-title">إتمام الطلب</h3>
+            <p id="selected-product" style="font-weight: bold; color: #25D366; margin-bottom: 18px; font-size: 15px;"></p>
+            <form id="order-form" onsubmit="submitOrder(event)">
+                <label id="lbl-name">الاسم الكامل:</label>
+                <input type="text" id="c-name" required placeholder="...">
+                <label id="lbl-phone">رقم الهاتف:</label>
+                <input type="tel" id="c-phone" required placeholder="06xxxxxxxx">
+                <label id="lbl-address">العنوان / المدينة:</label>
+                <textarea id="c-address" required placeholder="..." style="height: 70px; resize: none;"></textarea>
+                <button type="submit" class="btn-submit" id="btn-confirm">تأكيد الطلب عبر واتساب</button>
+                <button type="button" class="btn-cancel" onclick="closeCheckout()" id="btn-close-modal">إلغاء</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const WA_NUMBER = "212611663775";
+
+        const productsData = [
+            {
+                id: 1,
+                category: "men",
+                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop",
+                price: "399 DH",
+                title: { ar: "ساعة ذكية متطورة", fr: "Montre Connectée", en: "Smart Watch Edition" },
+                desc: { ar: "ساعة ذكية فاخرة بشاشة لمس متطورة وميزات تتبع اللياقة.", fr: "Montre connectée de luxe avec écran tactile.", en: "Luxury smart watch with touchscreen & fitness tracking." }
+            },
+            {
+                id: 2,
+                category: "men",
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop",
+                price: "299 DH",
+                title: { ar: "سماعات لاسلكية", fr: "Écouteurs Sans Fil", en: "Wireless Headphones" },
+                desc: { ar: "سماعات لاسلكية عالية الدقة مع عزل ممتاز للضوضاء.", fr: "Écouteurs sans fil haute fidélité avec réduction de bruit.", en: "High-definition wireless headphones with noise cancellation." }
+            },
+            {
+                id: 3,
+                category: "women",
+                image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&auto=format&fit=crop",
+                price: "199 DH",
+                title: { ar: "نظارات شمسية عصرية", fr: "Lunettes de Soleil", en: "Classic Sunglasses" },
+                desc: { ar: "نظارات شمسية بحماية UV400 وإطار معدني أنيق.", fr: "Lunettes de soleil tendance avec protection UV400.", en: "Trendy sunglasses with UV400 protection & sleek frame." }
+            },
+            {
+                id: 4,
+                category: "women",
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500&auto=format&fit=crop",
+                price: "349 DH",
+                title: { ar: "حقيبة يد نسائية", fr: "Sac à Main de Luxe", en: "Luxury Handbag" },
+                desc: { ar: "حقيبة يد أنيقة بتصميم عصري وخامات عالية الجودة.", fr: "Sac à main élégant au design moderne et haute qualité.", en: "Elegant handbag with modern design and high quality." }
+            }
+        ];
+
+        const translations = {
+            ar: {
+                htmlLang: "ar", dir: "rtl",
+                announcement: "✨ توصيل سريع ومجاني لجميع المدن المغربية 🇲🇦 | الدفع عند الاستلام ✨",
+                subtext: "مرحباً بكم في متجركم، حيث تجدون أرقى المنتجات بأفضل الأسعار وبجودة عالية.",
+                menTab: "القسم الرجالي", womenTab: "القسم النسائي",
+                menHeading: "المنتجات الرجالية", womenHeading: "المنتجات النسائية",
+                orderBtn: "🛒 اطلب الآن", waBtn: "واتساب",
+                modalTitle: "إتمام الطلب", nameLbl: "الاسم الكامل:", phoneLbl: "رقم الهاتف:", addressLbl: "العنوان / المدينة:",
+                confirmBtn: "تأكيد الطلب عبر واتساب", cancelBtn: "إلغاء",
+                welcomeTitle: "مرحباً بك في AMINNOVA", welcomeSub: "الرجاء اختيار لغتك والقسم المفضل لديك:",
+                langLabel: "اختر اللغة / Choose Language:", genderLabel: "اختر القسم:", startBtn: "دخول للمتجر 🚀"
+            },
+            fr: {
+                htmlLang: "fr", dir: "ltr",
+                announcement: "✨ Livraison rapide et gratuite au Maroc 🇲🇦 | Paiement à la livraison ✨",
+                subtext: "Bienvenue dans votre boutique, découvrez nos meilleurs produits de haute qualité.",
+                menTab: "Section Homme", womenTab: "Section Femme",
+                menHeading: "Produits Hommes", womenHeading: "Produits Femmes",
+                orderBtn: "🛒 Commander", waBtn: "WhatsApp",
+                modalTitle: "Finaliser la commande", nameLbl: "Nom complet:", phoneLbl: "Téléphone:", addressLbl: "Adresse / Ville:",
+                confirmBtn: "Confirmer via WhatsApp", cancelBtn: "Annuler",
+                welcomeTitle: "Bienvenue chez AMINNOVA", welcomeSub: "Veuillez choisir votre langue et votre catégorie :",
+                langLabel: "Langue / Language:", genderLabel: "Catégorie:", startBtn: "Entrer dans la boutique 🚀"
+            },
+            en: {
+                htmlLang: "en", dir: "ltr",
+                announcement: "✨ Fast & Free Delivery across Morocco 🇲🇦 | Cash on Delivery ✨",
+                subtext: "Welcome to your store, find the finest products with high quality and best prices.",
+                menTab: "Men Section", womenTab: "Women Section",
+                menHeading: "Men Collection", womenHeading: "Women Collection",
+                orderBtn: "🛒 Order Now", waBtn: "WhatsApp",
+                modalTitle: "Complete Order", nameLbl: "Full Name:", phoneLbl: "Phone Number:", addressLbl: "Address / City:",
+                confirmBtn: "Confirm via WhatsApp", cancelBtn: "Cancel",
+                welcomeTitle: "Welcome to AMINNOVA", welcomeSub: "Please select your language and category:",
+                langLabel: "Choose Language:", genderLabel: "Category:", startBtn: "Enter Store 🚀"
+            }
+        };
+
+        let currentLang = 'ar';
+        let currentGender = 'men';
+        let tempModalLang = 'ar';
+        let tempModalGender = 'men';
+
+        function setModalLang(lang) {
+            tempModalLang = lang;
+            document.getElementById('modal-lang-ar').classList.toggle('selected', lang === 'ar');
+            document.getElementById('modal-lang-fr').classList.toggle('selected', lang === 'fr');
+            document.getElementById('modal-lang-en').classList.toggle('selected', lang === 'en');
+
+            const t = translations[lang];
+            document.getElementById('m-title').innerText = t.welcomeTitle;
+            document.getElementById('m-subtitle').innerText = t.welcomeSub;
+            document.getElementById('m-lang-label').innerText = t.langLabel;
+            document.getElementById('m-gender-label').innerText = t.genderLabel;
+            document.getElementById('m-btn-start').innerText = t.startBtn;
+        }
+
+        function setModalGender(gender) {
+            tempModalGender = gender;
+            document.getElementById('modal-gender-men').classList.toggle('selected', gender === 'men');
+            document.getElementById('modal-gender-women').classList.toggle('selected', gender === 'women');
+        }
+
+        function startWebsite() {
+            currentLang = tempModalLang;
+            currentGender = tempModalGender;
+            document.getElementById('welcome-modal').style.display = 'none';
+            applyLanguage();
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            applyLanguage();
+        }
+
+        function switchCategory(gender) {
+            currentGender = gender;
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const t = translations[currentLang];
+            document.getElementById('html-root').setAttribute('lang', t.htmlLang);
+            document.getElementById('html-root').setAttribute('dir', t.dir);
+
+            document.getElementById('announcement-text').innerText = t.announcement;
+            document.getElementById('subtext-desc').innerText = t.subtext;
+            document.getElementById('tab-men').innerText = t.menTab;
+            document.getElementById('tab-women').innerText = t.womenTab;
+
+            document.getElementById('tab-men').classList.toggle('active', currentGender === 'men');
+            document.getElementById('tab-women').classList.toggle('active', currentGender === 'women');
+            document.getElementById('btn-lang-ar').classList.toggle('active', currentLang === 'ar');
+            document.getElementById('btn-lang-fr').classList.toggle('active', currentLang === 'fr');
+            document.getElementById('btn-lang-en').classList.toggle('active', currentLang === 'en');
+
+            document.getElementById('section-heading').innerText = currentGender === 'men' ? t.menHeading : t.womenHeading;
+
+            document.getElementById('c-modal-title').innerText = t.modalTitle;
+            document.getElementById('lbl-name').innerText = t.nameLbl;
+            document.getElementById('lbl-phone').innerText = t.phoneLbl;
+            document.getElementById('lbl-address').innerText = t.addressLbl;
+            document.getElementById('btn-confirm').innerText = t.confirmBtn;
+            document.getElementById('btn-close-modal').innerText = t.cancelBtn;
+
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            if (!container) return;
+
+            const t = translations[currentLang];
+            const filteredProducts = productsData.filter(p => p.category === currentGender);
+
+            container.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="${product.image}" class="product-image" alt="${product.title[currentLang]}">
+                    </div>
+                    <div class="product-title">${product.title[currentLang]}</div>
+                    <div class="product-desc">${product.desc[currentLang]}</div>
+                    <div class="price-badge">${product.price}</div>
+                    <div class="actions-group">
+                        <button type="button" class="btn-action btn-cart" onclick="openCheckout('${product.title[currentLang]}', '${product.price}')">${t.orderBtn}</button>
+                        <a href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hello, I want to buy ' + product.title[currentLang])}" class="btn-action btn-wa" target="_blank">${t.waBtn}</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // خلفية Three.js
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x080a0f, 0.025);
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 8);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-bg'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+        const frontLight = new THREE.PointLight(0xffffff, 3.5, 25);
+        frontLight.position.set(2, 4, 6);
+        scene.add(frontLight);
+
+        function create3DWatch() {
+            const group = new THREE.Group();
+            const dial = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.12, 32), new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.9, roughness: 0.1 }));
+            dial.rotation.x = Math.PI / 2;
+            group.add(dial);
+            group.add(new THREE.Mesh(new THREE.TorusGeometry(0.82, 0.06, 16, 32), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95 })));
+            const strap = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.2, 0.06), new THREE.MeshStandardMaterial({ color: 0x0f172a }));
+            const s1 = strap.clone(); s1.position.y = 1.1; group.add(s1);
+            const s2 = strap.clone(); s2.position.y = -1.1; group.add(s2);
+            return group;
+        }
+
+        const watches = [];
+        for (let i = 0; i < 12; i++) {
+            const w = create3DWatch();
+            w.position.set((Math.random() - 0.5) * 14, - (i * 1.3) + 2, (Math.random() - 0.5) * 6);
+            const scale = Math.random() * 0.4 + 0.6;
+            w.scale.set(scale, scale, scale);
+            w.userData = { rx: (Math.random() - 0.5) * 0.02, ry: (Math.random() - 0.5) * 0.02 };
+            scene.add(w);
+            watches.push(w);
+        }
+
+        let scrollY = 0;
+        window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            camera.position.y += (- (scrollY / window.innerHeight) * 4 - camera.position.y) * 0.08;
+            watches.forEach(w => { w.rotation.x += w.userData.rx; w.rotation.y += w.userData.ry; });
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        let currentProduct = "", currentPrice = "";
+        function openCheckout(p, pr) {
+            currentProduct = p; currentPrice = pr;
+            document.getElementById('selected-product').innerText = `${p} (${pr})`;
+            document.getElementById('checkout-modal').style.display = 'flex';
+        }
+        function closeCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
+        function closeCheckoutOnOutside(e) { if (e.target.id === 'checkout-modal') closeCheckout(); }
+        function submitOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('c-name').value;
+            const phone = document.getElementById('c-phone').value;
+            const address = document.getElementById('c-address').value;
+            const msg = `Order: ${currentProduct} (${currentPrice})\nName: ${name}\nPhone: ${phone}\nAddress: ${address}`;
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+            closeCheckout();
+        }
+
+        const audio = document.getElementById('bgMusic'), musicBtn = document.getElementById('musicToggle');
+        let isPlaying = false;
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) { audio.pause(); musicBtn.innerText = "🎵 الموسيقى: معطلة"; }
+            else { audio.play().catch(()=>{}); musicBtn.innerText = "🎵 الموسيقى: شغال"; }
+            isPlaying = !isPlaying;
+        });
+
+        // عرض المنتجات مباشرة عند فتح الصفحة (ليراها Google أيضًا)
+        applyLanguage();
+    </script>
+</body>
+</html>
